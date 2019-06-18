@@ -5,7 +5,7 @@
 composer require jst/jst-erp-sdk
 ```
 ## 使用方法
-单笔查询库存的接口
+店铺查询的接口
 ```php
 use Jst\RpcClient;
 
