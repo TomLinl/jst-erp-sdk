@@ -1,0 +1,19 @@
+{
+    "name": "jst/jst-erp-sdk",
+    "description": "jst-erp-sdk",
+    "type": "library",
+    "authors": [
+        {
+            "name": "TomLinl",
+            "email": "lt0t@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jst\\" : "src/"
+        }
+    }
+}
