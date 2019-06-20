@@ -7,13 +7,14 @@ class RpcClient
     protected $sandbox;
     protected $partner_id;
     protected $partner_key;
+    protected $token;
     protected $taobao_appkey;
     protected $taobao_secret;
     protected $debug_mode;
     protected $target_appkey = '23060081';
-    private $__url_map = ['jst' => null, 'qm' => null];
+    private $url_map = ['jst' => null, 'qm' => null];
 
-    function __construct(
+    public function __construct(
         $sandbox,
         $partner_id,
         $partner_key,
@@ -37,15 +38,15 @@ class RpcClient
      * 测试/正式接口地址
      * @return mixed
      */
-    public function get_request_url()
+    public function getRequestUrl()
     {
         if ($this->sandbox) {
-            $this->__url_map['jst'] = 'http://c.sursung.com/api/open/query.aspx';
+            $this->url_map['jst'] = 'http://c.sursung.com/api/open/query.aspx';
         } else {
-            $this->__url_map['jst'] = 'http://open.erp321.com/api/open/query.aspx';
+            $this->url_map['jst'] = 'http://open.erp321.com/api/open/query.aspx';
         }
 
-        return $this->__url_map['jst'];
+        return $this->url_map['jst'];
     }
 
     /**
@@ -61,15 +62,15 @@ class RpcClient
             $parameters = (object)array();
         }
 
-        $system_params = $this->get_system_params($action, $parameters);
-        $request_url = $this->get_request_url();
+        $system_params = $this->getSystemParams($action, $parameters);
+        $request_url = $this->getRequestUrl();
         $result = $this->post($request_url, $parameters, $system_params, $action);
 
         return $result;
     }
 
 
-    public function get_system_params($action, $params, $sys_params = [])
+    public function getSystemParams($action, $params, $sys_params = [])
     {
         # 默认系统参数
         $system_params = [
@@ -79,11 +80,11 @@ class RpcClient
             'ts' => time()
         ];
 
-        return $this->generate_signature($system_params, $params);
+        return $this->generateSignature($system_params, $params);
     }
 
     //计算验签
-    public function generate_signature($system_params, $params = null)
+    public function generateSignature($system_params, $params = null)
     {
         $sign_str = '';
         ksort($system_params);
@@ -104,7 +105,6 @@ class RpcClient
         $system_params['sign'] = md5($sign_str);
 
         return $system_params;
-
     }
 
     //发送请求
@@ -134,7 +134,6 @@ class RpcClient
         } catch (\Exception $e) {
             return null;
         }
-
     }
 
 }
